@@ -1,0 +1,46 @@
+<?php //$this->showTemplateVars(); ?>
+
+<div data-tickeritem="<?php echo $this->id; ?>" class="liveticker-item item block" style="<?php echo $this->display; ?>"> 
+
+	<div class="info">
+		<span class="time"><?php echo date("d.m.Y H:i", $this->createtime); ?></span> |
+		<span class="author"><?php echo $this->authorname; ?></span> |  
+		<span class="guests">Zuschauer: <?php echo $this->online; ?></span>
+		<span class="guests">(max. <?php echo $this->max_guests; ?> am <?php echo date("d.m.Y H:i", $this->max_guests_time); ?>)</span>
+	</div>
+	
+	<?php if($this->headline): ?>
+		<h3><?php echo $this->headline; ?></h3>
+	<?php endif; ?>
+
+	<?php if($this->text || $this->addImage): ?>
+
+		<div class="text">
+		<?php if($this->addImage): ?>
+			<figure class="image_container<?php echo $this->floatClass; ?>"<?php if ($this->margin || $this->float): ?> style="<?php echo trim($this->margin . $this->float); ?>"<?php endif; ?>>
+			
+				<?php if ($this->href): ?>
+					<a href="<?php echo $this->href; ?>"<?php echo $this->attributes; ?> title="<?php echo $this->alt; ?>">
+				<?php endif; ?>
+				
+				<img src="<?php echo $this->src; ?>"<?php echo $this->imgSize; ?> alt="<?php echo $this->alt; ?>">
+				
+				<?php if ($this->href): ?>
+					</a>
+				<?php endif; ?>
+				
+				<?php if ($this->caption): ?>
+					<figcaption class="caption" style="width:<?php echo $this->arrSize[0]; ?>px"><?php echo $this->caption; ?></figcaption>
+				<?php endif; ?>
+			
+			</figure>
+		<?php endif; ?> 
+
+		<?php if($this->text): ?>
+			<?php echo $this->text; ?>
+		<?php endif; ?>
+		</div>
+	
+	<?php endif; ?>
+
+</div>

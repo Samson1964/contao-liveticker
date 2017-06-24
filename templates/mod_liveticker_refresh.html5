@@ -1,0 +1,47 @@
+<div class="mod_liveticker block<?php echo $this->class; ?>"> 
+
+	<?php if($this->active): ?>
+		<script type="text/javascript">
+			var intervall = setInterval(getContent, <?php echo $this->reload; ?>);
+			var intervallTimer = setInterval(getTimer, 1000);
+			var last = <?php echo $this->last; ?>;
+			var seconds = <?php echo $this->seconds; ?>;
+			
+			function getContent () 
+			{
+				$.get('system/modules/liveticker/assets/ajax/load.php?id=' + <?php echo $this->id; ?> + '&last=' + last, function (data) 
+				{
+					$('#livetickertext').prepend(data);
+					$('.mod_liveticker .item').fadeIn('slow');
+					// Letzte ID ermitteln
+					//liste = document.getElementById("livetickertext");
+					//last = liste.childNodes[0].getAttribute("data-tickeritem");
+					//last = $('#livetickertext').children[0].getAttribute("data-tickeritem");
+					last = $('#livetickertext div:first-child').attr("data-tickeritem");
+				})
+			}
+    	
+			function getTimer () 
+			{
+				seconds -= 1;
+				$('#livetickertimer').html("Aktualisierung in " + seconds + " Sekunden");
+				if(seconds == 0)
+				{
+					seconds = <?php echo $this->seconds; ?>;
+				}
+			}
+    	
+		</script>
+		
+		<div id="livetickertimer">Automatische Aktualisierung in <?php echo $this->seconds; ?> Sekunden</div>
+		<div id="livetickerguests">Zuschauer max. <?php echo $this->max_guests; ?> am <?php echo date("d.m.Y H:i", $this->max_guests_time); ?>)</span>
+	<?php else: ?>
+		<div id="livetickertimer">Liveticker nicht aktiv</div>
+		<div id="livetickerguests">Zuschauer max. <?php echo $this->max_guests; ?> am <?php echo date("d.m.Y H:i", $this->max_guests_time); ?></span>
+	<?php endif; ?>
+
+	<div id="livetickertext">
+		<?php foreach ($this->content as $entry) echo $entry; ?> 
+	</div>
+
+</div>
